@@ -110,3 +110,34 @@ public class IntersectionSimulator {
         }
     }
 }
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Output:-
+
+Color Direction Report:
+Red cars:
+  N: 30 cars
+  S: 0 cars
+  E: 0 cars
+  W: 0 cars
+Green cars:
+  N: 60 cars
+  S: 60 cars
+  E: 0 cars
+  W: 90 cars
+Blue cars:
+  N: 30 cars
+  S: 60 cars
+  E: 0 cars
+  W: 30 cars
+Orange cars:
+  N: 60 cars
+  S: 30 cars
+  E: 0 cars
+  W: 30 cars
+Pink cars:
+  N: 30 cars
+  S: 30 cars
+  E: 30 cars
+  W: 30 cars
