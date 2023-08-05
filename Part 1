@@ -2,8 +2,8 @@ import java.util.Random;
 import java.util.Arrays;
 
 public class Car {
-    private int speed;
-    private String direction;
+    private int speed; // Speed in km/h
+    private String direction; // Direction: "N", "S", "E", "W"
     private String color;
 
     public Car(int speed, String direction) {
@@ -14,35 +14,53 @@ public class Car {
         this.color = colors[rand.nextInt(colors.length)];
     }
 
-    public String getColor() {
-        return color;
+    public int getSpeed() {
+        return speed;
+    }
+
+    public void accelerate(int amount) {
+        speed += amount;
+    }
+
+    public void brake(int amount) {
+        speed = Math.max(0, speed - amount);
     }
 
     public String getDirection() {
         return direction;
+    }
+
+    public String getColor() {
+        return color;
     }
 }
 
 public class TrafficLight {
     private boolean isGreen;
 
-    public void setGreen(boolean isGreen) {
-        this.isGreen = isGreen;
+    public TrafficLight() {
+        isGreen = false;
     }
 
     public boolean isGreen() {
         return isGreen;
     }
+
+    public void setGreen(boolean isGreen) {
+        this.isGreen = isGreen;
+    }
 }
 
 public class IntersectionSimulator {
     private static int[][] colorDirectionCount = new int[5][4];
+    private static final int SIMULATION_TIME_SECONDS = 60;
 
     public static void main(String[] args) {
         TrafficLight trafficLight = new TrafficLight();
         Random rand = new Random();
-        Car[] cars = new Car[20];
 
+        // Create cars with random speeds and directions
+        Car[] cars = new Car[20];
         for (int i = 0; i < cars.length; i++) {
             int speed = rand.nextInt(60) + 20;
             String[] directions = {"N", "S", "E", "W"};
@@ -50,11 +68,16 @@ public class IntersectionSimulator {
             cars[i] = new Car(speed, direction);
         }
 
-        for (int time = 0; time < 60; time++) {
+        for (int time = 0; time < SIMULATION_TIME_SECONDS; time++) {
+            int randomDirectionIndex = rand.nextInt(4);
+            String[] directions = {"N", "S", "E", "W"};
+            String greenDirection = directions[randomDirectionIndex];
             trafficLight.setGreen(true);
 
             for (Car car : cars) {
-                updateCarCount(car);
+                if (car.getDirection().equals(greenDirection)) {
+                    updateCarCount(car);
+                }
             }
 
             trafficLight.setGreen(false);
@@ -70,17 +93,9 @@ public class IntersectionSimulator {
     }
 
     private static void updateCarCount(Car car) {
-        int colorIndex = getColorIndex(car.getColor());
-        int directionIndex = getDirectionIndex(car.getDirection());
+        int colorIndex = Arrays.asList("Red", "Green", "Blue", "Orange", "Pink").indexOf(car.getColor());
+        int directionIndex = Arrays.asList("N", "S", "E", "W").indexOf(car.getDirection());
         colorDirectionCount[colorIndex][directionIndex]++;
-    }
-
-    private static int getColorIndex(String color) {
-        return Arrays.asList("Red", "Green", "Blue", "Orange", "Pink").indexOf(color);
-    }
-
-    private static int getDirectionIndex(String direction) {
-        return Arrays.asList("N", "S", "E", "W").indexOf(direction);
     }
 
     private static void generateReport() {
